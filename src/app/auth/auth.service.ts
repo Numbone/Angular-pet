@@ -6,9 +6,14 @@ import {HttpClient} from "@angular/common/http";
 })
 export class AuthService {
   baseApiUrl='https://icherniakov.ru/yt-course/auth/'
-  public hhtp=inject(HttpClient);
+  hhtp=inject(HttpClient);
+
 
   login(payload:{username:string,password:string}){
-    return this.hhtp.post(`${this.baseApiUrl}token`,payload)
+    const fd =new FormData();
+    fd.append('username', payload.username);
+    fd.append('password', payload.password);
+
+    return this.hhtp.post(`${this.baseApiUrl}token`,fd)
   }
 }
