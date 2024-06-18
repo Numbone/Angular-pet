@@ -12,6 +12,9 @@ import {AuthService} from "../../auth/auth.service";
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent{
+  constructor() {
+
+  }
   authService=inject(AuthService)
 
   public form = new FormGroup({
@@ -25,7 +28,7 @@ export class LoginPageComponent{
     const username = formValue.username;
     const password = formValue.password;
     if (this.form.valid && username && password ){
-      this.authService.login({username, password}).subscribe({
+      this.authService.log in({username, password}).subscribe({
         next: (response) => {
           console.log('Login successful:', response);
           // Handle successful login here (e.g., navigate to another page)
