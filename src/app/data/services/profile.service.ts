@@ -1,24 +1,20 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Profile} from "../interfaces/profile.interface";
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Profile } from '../interfaces/profile.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
   http = inject(HttpClient);
 
-  public baseApiUrl = 'https://icherniakov.ru/yt-course'
-
-  constructor() {
-  }
+  public baseApiUrl = 'https://icherniakov.ru/yt-course';
 
   getTestAccounts() {
-    return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`)
+    return this.http.get<Profile[]>(`${this.baseApiUrl}/account/test_accounts`);
   }
 
-
   getMe() {
-    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`)
+    return this.http.get<Profile>(`${this.baseApiUrl}/account/me`);
   }
 }

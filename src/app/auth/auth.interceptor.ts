@@ -1,31 +1,35 @@
-import {HttpHandlerFn, HttpInterceptorFn, HttpRequest} from "@angular/common/http";
-import {inject} from "@angular/core";
-import {AuthService} from "./auth.service";
-import {catchError, switchMap, throwError} from "rxjs";
+import {
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from './auth.service';
+import { catchError, switchMap, throwError } from 'rxjs';
 
-let isResfreshing = false
+let isResfreshing = false;
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(AuthService).token
-  const authService = inject(AuthService)
+  const token = inject(AuthService).token;
+  const authService = inject(AuthService);
 
   if (!token) {
-    return next(req)
+    return next(req);
   }
 
   if (isResfreshing) {
-    return handleRefresh(authService, req, next)
+    return handleRefresh(authService, req, next);
   }
 
   return next(addToken(req, token)).pipe(
     catchError(error => {
       if (error.status === 403) {
-        return handleRefresh(authService, req, next)
+        return handleRefresh(authService, req, next);
       }
-      return throwError(error)
+      return throwError(error);
     })
-  )
-}
+  );
+};
 
 const handleRefresh = (
   authService: AuthService,
@@ -33,21 +37,21 @@ const handleRefresh = (
   next: HttpHandlerFn
 ) => {
   if (!isResfreshing) {
-    isResfreshing = true
+    isResfreshing = true;
     return authService.refreshAuthToken().pipe(
-      switchMap((res) => {
-        isResfreshing = false
-        return next(addToken(req, res.access_token))
+      switchMap(res => {
+        isResfreshing = false;
+        return next(addToken(req, res.access_token));
       })
-    )
+    );
   }
-  return next(addToken(req, authService.token!))
-}
+  return next(addToken(req, authService.token!));
+};
 
 const addToken = (req: HttpRequest<any>, token: string) => {
   return req.clone({
     setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-}
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
