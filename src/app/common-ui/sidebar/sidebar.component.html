@@ -5,11 +5,29 @@
 >
 <nav>
   <ul class="main-menu-list">
-    <li>
-      <button class="menu-item">
-        <img src="/assets/svg/home.svg" alt="home">
-        <span>My profile</span>
+    <li *ngFor="let menuItem of menuItems">
+      <button class="menu-item" >
+        <svg [icon]="menuItem.icon"></svg>
+        <!--        <img src="/assets/svg/home.svg" alt="home">-->
+        <span>{{menuItem.label}}</span>
       </button>
     </li>
   </ul>
 </nav>
+
+
+<p class="medium-text mb20">
+  Subscriptions
+</p>
+<app-subscriber-card></app-subscriber-card>
+
+<div class="mt20 to-subscribers">
+  <a
+    [routerLink]="['/subscribers']"
+    class="to-subscribers-link medium-text"
+  >
+    All subscriptions
+  </a>
+  <svg class="to-subscribers-icon" icon="arrow">
+  </svg>
+</div>

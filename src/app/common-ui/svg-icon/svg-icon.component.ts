@@ -1,15 +1,17 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-svg-icon',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'svg[icon]',
   standalone: true,
-  imports: [],
+  imports:[],
   template: '<svg:use [attr.href]="href"></svg:use>',
   styles: ['']
 })
 export class SvgIconComponent {
-  @Input() icon:string=""
-  get href(){
-    return
+  @Input() icon = '';
+
+  get href() {
+    return `/assets/svg/${this.icon}.svg#${this.icon}`;
   }
 }
